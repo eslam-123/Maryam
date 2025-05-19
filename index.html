@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I Love You Maryam</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2280%22>❤️</text></svg>">
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Amiri&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #8B0000;
+      font-family: 'Amiri', serif;
+      overflow-x: hidden;
+      position: relative;
+      color: white;
+    }
+
+    h1 {
+      font-size: 4em;
+      text-align: center;
+      margin-top: 60px;
+      animation: pulse 2s infinite;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .gallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 40px auto 20px;
+      gap: 20px;
+      z-index: 2;
+      position: relative;
+    }
+
+    .gallery img {
+      width: 250px;
+      max-width: 90vw;
+      height: auto;
+      object-fit: cover;
+      border: 4px solid white;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery img:hover {
+      transform: scale(1.1);
+    }
+
+    .love-counter {
+      text-align: center;
+      font-size: 1.8em;
+      margin: 20px 0;
+    }
+
+    .heart-button {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+      color: white;
+    }
+
+    .marquee {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 1.5em;
+      padding: 10px 0;
+      text-align: center;
+      font-weight: bold;
+      overflow: hidden;
+      z-index: 3;
+    }
+
+    .marquee span {
+      display: inline-block;
+      padding-left: 100%;
+      animation: marquee 20s linear infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .heart {
+      width: 20px;
+      height: 20px;
+      background: red;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: rotate(45deg);
+      animation: float 6s linear infinite;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(45deg); opacity: 1; }
+      100% { transform: translateY(-100vh) rotate(45deg); opacity: 0; }
+    }
+
+    .popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0);
+      background: white;
+      color: #8B0000;
+      font-size: 2em;
+      padding: 30px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,0,0,0.4);
+      z-index: 10;
+      transition: transform 0.4s ease;
+    }
+
+    .popup.show {
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .popup .hands {
+      font-size: 3em;
+      margin-top: 15px;
+    }
+
+    .popup .close-btn {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 1em;
+      background: none;
+      border: none;
+      color: #8B0000;
+      cursor: pointer;
+    }
+
+    .kiss-popup {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 5em;
+      z-index: 20;
+      animation: fadeOut 2s ease-out forwards;
+    }
+
+    @keyframes fadeOut {
+      0% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -50%) scale(1.2); }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>I Love You Maryam</h1>
+
+  <div class="gallery">
+    <img src="photo1.jpg" alt="Our photo 1" id="loveImage" />
+    <img src="photo2.jpg" alt="Our photo 2" />
+    <img src="photo3.jpg" alt="Our photo 3" />
+  </div>
+
+  <div class="love-counter">
+    I love you <span id="loveCount">80</span>
+    <button class="heart-button" id="loveButton">❤️</button>
+    Times
+  </div>
+
+  <div class="popup" id="popup">
+    <button class="close-btn" onclick="closePopup()">X</button>
+    I love you my cutie!
+    <div class="hands">🤝❤️🤝</div>
+  </div>
+
+  <div class="marquee">
+    <span>
+      I Love You Maryam ❤️ I Love You Maryam ❤️ I Love You Maryam ❤️ I Love You Maryam ❤️ I Love You Maryam ❤️ I Love You Maryam ❤️ I Love You Maryam ❤️
+    </span>
+  </div>
+
+  <script>
+    // Floating hearts
+    for (let i = 0; i < 30; i++) {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 3 + 3) + 's';
+      document.body.appendChild(heart);
+    }
+
+    // Popup on image click
+    document.getElementById('loveImage').addEventListener('click', () => {
+      const popup = document.getElementById('popup');
+      popup.classList.add('show');
+    });
+
+    function closePopup() {
+      document.getElementById('popup').classList.remove('show');
+    }
+
+    // Love counter + kiss effect at 100
+    let loveCount = parseInt(localStorage.getItem('loveCount')) || 0;
+    const loveDisplay = document.getElementById('loveCount');
+    const loveButton = document.getElementById('loveButton');
+
+    loveDisplay.textContent = loveCount;
+
+    loveButton.addEventListener('click', () => {
+      loveCount++;
+      localStorage.setItem('loveCount', loveCount);
+      loveDisplay.textContent = loveCount;
+
+      if (loveCount === 100) {
+        showKiss();
+      }
+    });
+
+    function showKiss() {
+      const kiss = document.createElement('div');
+      kiss.classList.add('kiss-popup');
+      kiss.innerText = '💋';
+      document.body.appendChild(kiss);
+
+      setTimeout(() => {
+        kiss.remove();
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
